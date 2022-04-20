@@ -1,3 +1,4 @@
+import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { CreateUserService } from "./CreateServiceService";
@@ -12,7 +13,7 @@ export class CreateUserController{
             name, lastName, email, password, phone
         });        
 
-        return response.status(200).json(user).send();
+        return response.status(200).json({user: classToClass(user)}).send();
 
     }
 }

@@ -9,6 +9,21 @@ export class UsersRepository implements IUsersRepository{
     
     constructor(){
         this.repository = getRepository(User);
+    }    
+    
+    public async createSuperUserAdmin({name, lastName, email, password, phone}: ICreateUserDTO): Promise<User> {
+        const user = this.repository.create({
+            name,
+            lastName,
+            email,
+            password,
+            phone,        
+            role: 'superAdmin',    
+        });
+ 
+        await this.repository.save(user);
+
+        return user;
     }
 
     public async findById(id: string): Promise<User | undefined> {
@@ -27,9 +42,25 @@ export class UsersRepository implements IUsersRepository{
             lastName,
             email,
             password,
-            phone,            
+            phone,        
+            role: 'user',    
         });
  
+        await this.repository.save(user);
+
+        return user;
+    }
+
+    public async createBossUser({name, lastName, email, password, phone}: ICreateUserDTO): Promise<User> {
+        const user = this.repository.create({
+            name,
+            lastName,
+            email,
+            password,
+            phone,        
+            role: 'admin',    
+        });
+
         await this.repository.save(user);
 
         return user;
