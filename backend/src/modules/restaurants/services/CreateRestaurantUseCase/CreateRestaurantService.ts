@@ -4,8 +4,7 @@ import { IRestaurantRepository } from "../../repositories/IRestaurantRepository"
 
 interface IRequest{
     restaurantName: string;
-    city: string;
-    uf: string;
+    city_id: number;    
     district: string;
     street: string;
     number: number;
@@ -13,6 +12,9 @@ interface IRequest{
     phone: string;
     cnpj: string;    
     category: string;  
+    start_time: number;
+    end_time: number;    
+    distance: number;    
 }
 
 @injectable()
@@ -23,10 +25,10 @@ export class CreateRestaurantService{
         private restaurantRepository: IRestaurantRepository
     ){}
 
-    public async execute({restaurantName, city, uf, district, street, number, restaurant_manager, phone, cnpj, category}:IRequest):Promise<Restaurant>{        
+    public async execute({restaurantName, city_id, district, street, number, restaurant_manager, phone, cnpj, category, distance, end_time, start_time}:IRequest):Promise<Restaurant>{        
 
         const restaurant = await this.restaurantRepository.create({
-            restaurantName, city, uf, district, street, number, restaurant_manager, phone, cnpj, category
+            restaurantName, city_id, district, street, number, restaurant_manager, phone, cnpj, category, distance, end_time, start_time
         });
 
         return restaurant;

@@ -1,6 +1,8 @@
-import { Exclude } from 'class-transformer';
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Exclude, Expose } from 'class-transformer';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { v4 } from 'uuid';
+import { RestaurantRepository } from '../../restaurants/repositories/RestaurantRespository';
+import { City } from './City';
 
 @Entity("users")
 export class User{
@@ -20,9 +22,12 @@ export class User{
     @Column()
     phone: string;
     @Column()
-    city: string;
-    @Column()
-    uf: string;
+    city_id: number;
+
+    @OneToOne(() => City)
+    @JoinColumn({name: 'city_id'})
+    city: City;
+
     @Column()
     street: string;
     @Column()
@@ -34,8 +39,13 @@ export class User{
     @CreateDateColumn()
     created_at: Date;
     @UpdateDateColumn()
-    updated_at: Date; 
-    
+    updated_at: Date;    
+
+    @Expose({ name: 'avatar_url'})
+    getAvatarUrl(): string | null {
+        return this.avatar ? `${process.env.APP_API_URL}/files/uploads/${this.avatar}`
+        : null;
+    }
 
     constructor(){
         if(!this.id){

@@ -11,6 +11,10 @@ export class UsersRepository implements IUsersRepository{
         this.repository = getRepository(User);
     }    
     
+    public async save(user: User): Promise<User> {
+        return this.repository.save(user);
+    }
+    
     public async createSuperUserAdmin({name, lastName, email, password, phone}: ICreateUserDTO): Promise<User> {
         const user = this.repository.create({
             name,

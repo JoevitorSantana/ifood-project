@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
+import uploadConfig from './config/upload';
 import cors from 'cors';
 import { routes } from './shared/infra/http/routes';
 import './shared/container';
@@ -15,7 +16,9 @@ app.use(express.json());
 app.use(routes);
 app.use(errors());
 
-app.listen(3333, () => console.log('Server is running'));
+app.use('/files', express.static(uploadConfig.tmpFolder));
+
+app.listen(3334, () => console.log('Server is running'));
 
 app.get('/', (request, response) => {
     return response.json({ message: 'Hello world!' })

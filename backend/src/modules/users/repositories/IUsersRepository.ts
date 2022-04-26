@@ -7,4 +7,5 @@ export interface IUsersRepository{
     create(data: ICreateUserDTO):Promise<User>;
     createBossUser(data: ICreateUserDTO):Promise<User>;
     createSuperUserAdmin(data: ICreateUserDTO):Promise<User>;
+    save(user: User):Promise<User>;
 }
